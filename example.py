@@ -8,16 +8,15 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import normalize
 from sklearn.neighbors import KNeighborsClassifier
 from ot.utils import clean_zeros
-
 from utils import compute_sinkhorn_divergence, compute_emd
+
 
 X, y = fetch_openml('mnist_784', version=1, return_X_y=True, as_frame=False)
 
-#X = X.reshape(70000, 28, 28) 
-#sum of intensities should be normalized to 1
+# normalize pixel intensities
 X = normalize(X, axis=1, norm='l1')
 
-X_train, X_test, y_train, y_test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 
 # pixel coordinate array
 p = np.mgrid[0:28:1, 0:28:1].reshape(2,-1).T
@@ -25,3 +24,9 @@ p = np.mgrid[0:28:1, 0:28:1].reshape(2,-1).T
 # cost matrix with Euclidean base metric
 M = ot.dist(p,  metric='euclidean')
 
+
+# example: Sinkhorn divergence of the first two images with lambda = 1e-3
+print(compute_sinkhorn_divergence(X[0,:], X[1,:], M, reg=1e-2))
+
+# example: compute EMD of the first two images
+print(compute_emd(X[0,:], X[1,:], M))
