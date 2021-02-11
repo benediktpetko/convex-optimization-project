@@ -29,11 +29,11 @@ M = ot.dist(p,  metric='euclidean')
 #print(compute_emd(X[0,:], X[1,:], M))
 
 
-#start_sinkhorn = time.time()
-##sinkhorn_divergence = [compute_sinkhorn_divergence(X[i,:], X[j,:], M, reg=1e-2) for i in range(1797) for j in range(1797)]
-#sinkhorn_divergences = np.array([compute_sinkhorn_divergence(X[i,:], X[j,:], M, reg=1e-2, numItermax=100) for i in range(50) for j in range(50)])
-#
-#end_sinkhorn = time.time()
+start_sinkhorn = time.time()
+sinkhorn_divergence = [compute_sinkhorn_divergence(X[i,:], X[j,:], M, reg=1e-2) for i in range(1797) for j in range(1797)]
+sinkhorn_divergences = np.array([compute_sinkhorn_divergence(X[i,:], X[j,:], M, reg=1e-2, numItermax=100) for i in range(50) for j in range(50)])
+
+end_sinkhorn = time.time()
 
 start_emd = time.time()
 
@@ -44,4 +44,3 @@ end_emd = time.time()
 
 print("The Sinkhorn execution time: " , end_sinkhorn - start_sinkhorn)
 print("EMD execution time: ", end_emd - start_emd)
-breakpoint()
