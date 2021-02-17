@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import normalize
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
 from ot.utils import clean_zeros
 from utils import compute_sinkhorn_divergence, compute_emd
 
@@ -24,9 +25,13 @@ p = np.mgrid[0:8:1, 0:8:1].reshape(2,-1).T
 # cost matrix with Euclidean base metric
 M = ot.dist(p,  metric='euclidean')
 
-
+knn = KNeighborsClassifier()
+knn.fit(X_train, y_train)
+y_pred = knn.predict(X_test)
+ac = accuracy_score(y_test, y_pred)
+breakpoint()
 # example: Sinkhorn divergence of the first two images with lambda = 1e-3
-print(compute_sinkhorn_divergence(X[0,:], X[1,:], M, reg=1e-2))
+#print(compute_sinkhorn_divergence(X[0,:], X[1,:], M, reg=1e-2))
 
 # example: compute EMD of the first two images
-print(compute_emd(X[0,:], X[1,:], M))
+#print(compute_emd(X[0,:], X[1,:], M))
